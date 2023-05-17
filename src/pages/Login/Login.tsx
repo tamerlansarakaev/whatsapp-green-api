@@ -48,6 +48,7 @@ const Login = () => {
     );
 
     navigate('/');
+    return configStorage;
   };
 
   React.useEffect(() => {
