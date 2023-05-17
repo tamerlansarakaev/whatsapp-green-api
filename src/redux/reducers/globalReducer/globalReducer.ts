@@ -3,12 +3,18 @@ import { IData } from '../../../types';
 
 const initialState: IData = {
   messagesList: [],
+  phoneNumber: '',
+  config: null,
 };
 
-export const usersLoaded = createAction<IData>('data/loaded');
+export const configLoad = createAction<IData>('data/configLoad');
+export const changePhoneNumber = createAction<IData>('phoneNumber/change');
 
 export const globalReducer = createReducer(initialState, (builder) => {
-  builder.addCase(usersLoaded, (state, action) => {
-    state.messagesList = action.payload.messagesList;
+  builder.addCase(configLoad, (state, action) => {
+    state.config = action.payload.config;
+  });
+  builder.addCase(changePhoneNumber, (state, action) => {
+    state.phoneNumber = action.payload.phoneNumber;
   });
 });

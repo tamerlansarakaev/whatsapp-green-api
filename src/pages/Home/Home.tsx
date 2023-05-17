@@ -1,30 +1,38 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useAppDispatch } from '../../redux/config';
+import { configLoad } from '../../redux/reducers/globalReducer/globalReducer';
+
+// Components
+import FormSubmit from '../../Components/FormSubmit/FormSubmit';
 
 import styles from './Home.module.scss';
-import MessagesList from '../../Components/MessagesList/MessagesList';
-import { getContacts, getMessages } from '../../api';
 
 const Home = () => {
-  const [messages, setMessages] = React.useState();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  async function getMessagesList() {
-    const messagesList = await getMessages({
-      IdInstance: 1101821186,
-      ApiTokenInstance: '29187b7ace65413a9650c771b3c541ddf3367c5fa8f2446db2',
-      number: '905316855186',
-    });
-
-    const contacts = await getContacts({
-      IdInstance: 1101821186,
-      ApiTokenInstance: '29187b7ace65413a9650c771b3c541ddf3367c5fa8f2446db2',
-    });
-    console.log(contacts);
-  }
+  React.useEffect(() => {
+    const config = sessionStorage.getItem('config');
+    if (!config) {
+      navigate('/login');
+    } else {
+      const parseConfig = JSON.parse(config);
+      dispatch(
+        configLoad({
+          config: {
+            IdInstance: parseConfig.id,
+            ApiTokenInstance: parseConfig.apiKey,
+          },
+        })
+      );
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
-      <button onClick={getMessagesList}>Get Notificate</button>
-      <MessagesList messages={messages} />
+      <FormSubmit />
     </div>
   );
 };
