@@ -1,13 +1,14 @@
 export interface IUser {
-  typeAccount: string;
-  countryInstance: string;
-  wid: string;
+  type?: string;
+  name: string;
+  id: string;
 }
 
 export interface IMessage {
   chatId: string;
   textMessage: string;
-  timestamp?: number | string;
+  type?: string;
+  timestamp?: number;
   idMessage: string;
 }
 
@@ -16,6 +17,11 @@ export interface INotification {
 }
 
 export interface IData {
-  user?: IUser;
-  messagesList: IMessage[];
+  user?: IUser | null;
+  messagesList?: IMessage[];
+  phoneNumber?: string;
+  config?: {
+    IdInstance: string | number;
+    ApiTokenInstance: string;
+  } | null;
 }
